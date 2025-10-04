@@ -3,7 +3,10 @@ import type { Product, ProductsResponse } from '../types/product';
 const API_BASE_URL = 'https://localhost:7168';
 
 export const productsApi = {
-  getProducts: async (search?: string, page?: number): Promise<ProductsResponse> => {
+  getProducts: async (
+    search?: string,
+    page?: number
+  ): Promise<ProductsResponse> => {
     const params = new URLSearchParams();
     if (search) params.append('search', search);
     if (page) params.append('page', page.toString());
