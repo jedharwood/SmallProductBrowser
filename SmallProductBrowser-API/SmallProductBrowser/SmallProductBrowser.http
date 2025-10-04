@@ -1,0 +1,26 @@
+@SmallProductBrowser_HostAddress = https://localhost:7168
+
+GET {{SmallProductBrowser_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+GET {{SmallProductBrowser_HostAddress}}/api/products?page=2
+Accept: application/json
+
+###
+
+GET {{SmallProductBrowser_HostAddress}}/api/products?search=Annibale&page=1
+Accept: application/json
+
+###
+
+GET {{SmallProductBrowser_HostAddress}}/api/products/1
+Accept: application/json
+
+###
+
+GET {{SmallProductBrowser_HostAddress}}/api/products/195
+Accept: application/json
+
+###
