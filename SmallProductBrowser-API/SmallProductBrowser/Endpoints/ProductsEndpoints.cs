@@ -8,9 +8,22 @@ namespace SmallProductBrowser.Endpoints
         {
             var group = routes.MapGroup("/api/products");
 
-            group.MapGet("/", async (HttpClient httpClient) =>
+            group.MapGet("/", async (HttpClient httpClient, string? search, int? page) =>
             {
-                var products = await httpClient.GetFromJsonAsync<DummyProductsResponse>("https://dummyjson.com/products");
+                var pageSize = 10;
+                var skip = ((page ?? 1) - 1) * pageSize;
+
+                string url;
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    url = $"https://dummyjson.com/products/search?q={Uri.EscapeDataString(search)}&limit={pageSize}&skip={skip}";
+                }
+                else
+                {
+                    url = $"https://dummyjson.com/products?limit={pageSize}&skip={skip}";
+                }
+
+                var products = await httpClient.GetFromJsonAsync<DummyProductsResponse>(url);
 
                 return Results.Ok(products);
             });
