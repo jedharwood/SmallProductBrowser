@@ -1,4 +1,4 @@
-﻿using SmallProductBrowser.Models;
+﻿using SmallProductBrowser.Services;
 
 namespace SmallProductBrowser.Endpoints
 {
@@ -8,29 +8,19 @@ namespace SmallProductBrowser.Endpoints
         {
             var group = routes.MapGroup("/api/products");
 
-            group.MapGet("/", async (HttpClient httpClient, string? search, int? page) =>
+            group.MapGet("/", async (IProductsService productsService, string? search, int? page) =>
             {
-                var pageSize = 10;
-                var skip = ((page ?? 1) - 1) * pageSize;
+                var products = await productsService.GetProductsAsync(search, page);
 
-                string url;
-                if (!string.IsNullOrWhiteSpace(search))
-                {
-                    url = $"https://dummyjson.com/products/search?q={Uri.EscapeDataString(search)}&limit={pageSize}&skip={skip}";
-                }
-                else
-                {
-                    url = $"https://dummyjson.com/products?limit={pageSize}&skip={skip}";
-                }
-
-                var products = await httpClient.GetFromJsonAsync<DummyProductsResponse>(url);
+                if (products == null)
+                    return Results.NotFound();
 
                 return Results.Ok(products);
             });
 
-            group.MapGet("/{id:int}", async (HttpClient httpClient, int id) =>
+            group.MapGet("/{id:int}", async (IProductsService productsService, int id) =>
             {
-                var product = await httpClient.GetFromJsonAsync<DummyProductResponse>($"https://dummyjson.com/products/{id}");
+                var product = await productsService.GetProductByIdAsync(id);
 
                 if (product == null)
                     return Results.NotFound();
