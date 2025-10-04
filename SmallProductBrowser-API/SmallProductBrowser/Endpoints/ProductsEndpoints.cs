@@ -10,30 +10,30 @@ namespace SmallProductBrowser.Endpoints
 
             group.MapGet("/", async (ILogger<Program> logger, IProductsService productsService, string? search, int? page) =>
             {
-                logger.LogInformation($"{DateTime.Now}: GET /api/products/ called with query parameters: search=[{search}], page=[{page}]");
+                logger.LogInformation($"GET /api/products/ called with query parameters: search=[{search}], page=[{page}]");
                 var products = await productsService.GetProductsAsync(search, page);
 
                 if (products == null) {
-                    logger.LogInformation($"{DateTime.Now}: GET /api/products/ returned Not Found result");
+                    logger.LogInformation($"GET /api/products/ returned Not Found result");
                     return Results.NotFound();
                 }
 
-                logger.LogInformation($"{DateTime.Now}: GET /api/products/ returned: {products.Total} products");
+                logger.LogInformation($"GET /api/products/ returned: {products.Total} products");
                 return Results.Ok(products);
             });
 
             group.MapGet("/{id:int}", async (ILogger<Program> logger, IProductsService productsService, int id) =>
             {
-                logger.LogInformation($"{DateTime.Now}: GET /api/products/{id} called");
+                logger.LogInformation($"GET /api/products/{id} called");
                 var product = await productsService.GetProductByIdAsync(id);
 
                 if (product == null)
                 {
-                    logger.LogInformation($"{DateTime.Now}: GET /api/products/{id} returned Not Found result");
+                    logger.LogInformation($"GET /api/products/{id} returned Not Found result");
                     return Results.NotFound();
                 }
 
-                logger.LogInformation($"{DateTime.Now}: GET /api/products/ returned product id:{product.Id}");
+                logger.LogInformation($"GET /api/products/ returned product id:{product.Id}");
                 return Results.Ok(product);
             });
 

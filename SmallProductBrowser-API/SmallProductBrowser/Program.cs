@@ -8,16 +8,18 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
     .ReadFrom.Services(services)
     .WriteTo.Console()
 );
-
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<IProductsService, ProductsService>((sp, httpClient) =>
-    new ProductsService(httpClient, sp.GetRequiredService<IMemoryCache>()));
+    new ProductsService(
+        httpClient,
+        sp.GetRequiredService<IMemoryCache>(),
+        sp.GetRequiredService<ILogger<ProductsService>>()
+    ));
 
 var app = builder.Build();
 app.UseHttpsRedirection();

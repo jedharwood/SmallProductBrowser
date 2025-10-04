@@ -1,10 +1,11 @@
-﻿using SmallProductBrowser.Models;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Moq.Protected;
+using SmallProductBrowser.Models;
 using SmallProductBrowser.Services;
 using System.Net;
 using System.Net.Http.Json;
-using Moq;
-using Moq.Protected;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace SmallProductBrowser.Tests.UnitTests
 {
@@ -14,6 +15,8 @@ namespace SmallProductBrowser.Tests.UnitTests
         private HttpClient _httpClient;
         private ProductsService _service;
         private MemoryCache _memoryCache;
+        private Mock<ILogger<ProductsService>> _mockLogger;
+
 
         private void SetupHttpResponse(HttpResponseMessage response)
         {
@@ -27,7 +30,8 @@ namespace SmallProductBrowser.Tests.UnitTests
 
             _httpClient = new HttpClient(_mockHandler.Object);
             _memoryCache = new MemoryCache(new MemoryCacheOptions());
-            _service = new ProductsService(_httpClient, _memoryCache);
+            _mockLogger = new Mock<ILogger<ProductsService>>();
+            _service = new ProductsService(_httpClient, _memoryCache, _mockLogger.Object);
         }
 
         [Fact]
