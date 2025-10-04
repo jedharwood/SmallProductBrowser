@@ -4,14 +4,16 @@ using System.Net;
 using System.Net.Http.Json;
 using Moq;
 using Moq.Protected;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace SmallProductBrowser.Tests.UnitTests.Services
+namespace SmallProductBrowser.Tests.UnitTests
 {
     public class ProductsServiceTests
     {
         private Mock<HttpMessageHandler> _mockHandler;
         private HttpClient _httpClient;
         private ProductsService _service;
+        private MemoryCache _memoryCache;
 
         private void SetupHttpResponse(HttpResponseMessage response)
         {
@@ -24,7 +26,8 @@ namespace SmallProductBrowser.Tests.UnitTests.Services
                 .ReturnsAsync(response);
 
             _httpClient = new HttpClient(_mockHandler.Object);
-            _service = new ProductsService(_httpClient);
+            _memoryCache = new MemoryCache(new MemoryCacheOptions());
+            _service = new ProductsService(_httpClient, _memoryCache);
         }
 
         [Fact]
