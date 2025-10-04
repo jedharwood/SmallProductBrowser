@@ -24,6 +24,27 @@ builder.Services.AddHttpClient<IProductsService, ProductsService>((sp, httpClien
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.MapProductsEndpoints();
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Request: {Method} {Path}", context.Request.Method, context.Request.Path);
+
+    await next();
+
+    logger.LogInformation("Response: {StatusCode}", context.Response.StatusCode);
+});
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        var exceptionHandlerPathFeature = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
+        logger.LogError(exceptionHandlerPathFeature?.Error, "Unhandled exception occurred");
+
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("An unexpected error occurred.");
+    });
+});
 
 app.Run();
 
