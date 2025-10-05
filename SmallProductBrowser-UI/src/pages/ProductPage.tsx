@@ -3,10 +3,12 @@ import { useGetProduct } from '../hooks/useProducts';
 import PriceStockDisplay from '../components/PriceStockDisplay';
 import LoadingDisplay from '../components/LoadingDisplay';
 import ErrorDisplay from '../components/ErrorDisplay';
+import { useShoppingCart } from '../contexts/ShoppingCartContext';
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const productId = id ? parseInt(id) : 0;
+  const { addToCart } = useShoppingCart();
 
   const { data: product, isLoading, error } = useGetProduct(productId);
 
@@ -68,6 +70,21 @@ const ProductPage = () => {
             </div>
 
             <PriceStockDisplay stock={product.stock} price={product.price} />
+
+            <div className="pt-4">
+              <button
+                onClick={() => addToCart(product)}
+                disabled={product.stock === 0}
+                className={`py-3 px-6 rounded-lg font-semibold text-lg ${
+                  product.stock > 0
+                    ? 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:bg-blue-800'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+                aria-label="Add product to cart"
+              >
+                Add to cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
