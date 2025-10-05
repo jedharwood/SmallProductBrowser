@@ -25,14 +25,14 @@ const SearchInput: FC<SearchInputProps> = ({
           />
         </div>
         <div className="flex gap-2">
-            <button
-              onClick={onClearSearch}
-              className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-              disabled={!value || value.trim() === ''}
-              aria-label="Clear search input"
-            >
-              Clear
-            </button>
+          <button
+            onClick={onClearSearch}
+            className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+            disabled={!value || value.trim() === ''}
+            aria-label="Clear search input"
+          >
+            Clear
+          </button>
         </div>
       </div>
     </div>
