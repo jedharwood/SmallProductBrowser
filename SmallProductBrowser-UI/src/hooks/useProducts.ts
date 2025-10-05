@@ -5,7 +5,7 @@ export const useGetProducts = (page?: number, search?: string) => {
   return useQuery({
     queryKey: ['products', search, page],
     queryFn: () => productsApi.getProducts(search, page),
-    placeholderData: keepPreviousData, 
+    placeholderData: keepPreviousData,
     staleTime: 300000,
   });
 };

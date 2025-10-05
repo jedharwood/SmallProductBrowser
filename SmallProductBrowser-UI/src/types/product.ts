@@ -3,7 +3,7 @@ export type ProductsResponse = {
   total: number;
   skip: number;
   limit: number;
-}
+};
 
 export type Product = {
   id: number;
@@ -11,7 +11,7 @@ export type Product = {
   description: string;
   category: string;
   price: number;
-  discountPercentage: number; 
+  discountPercentage: number;
   rating: number;
   stock: number;
   tags: string[];
@@ -28,25 +28,25 @@ export type Product = {
   meta: Meta;
   images: string[];
   thumbnail: string;
-}
+};
 
 type Dimensions = {
   width: number;
   height: number;
   depth: number;
-}
+};
 
-type Review ={
+type Review = {
   rating: number;
   comment: string;
   date: string;
   reviewerName: string;
   reviewerEmail: string;
-}
+};
 
 type Meta = {
   createdAt: string;
   updatedAt: string;
   barcode: string;
   qrCode: string;
-}
+};
