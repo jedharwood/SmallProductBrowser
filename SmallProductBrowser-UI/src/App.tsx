@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router";
-import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
+import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         </Routes>
       </Layout>
     </Router>
-  )
-};
+  );
+}
 
 export default App;

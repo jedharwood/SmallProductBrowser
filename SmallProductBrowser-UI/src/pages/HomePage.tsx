@@ -1,10 +1,14 @@
+import Paginator from '../components/Paginator';
 import ProductCard from '../components/ProductCard';
 import { useGetProducts } from '../hooks/useProducts';
 import type { Product } from '../types/product';
+import { useSearchParams } from 'react-router-dom';
 
 const HomePage = () => {
-  const { data: productsData, isLoading, error } = useGetProducts();
-  
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1');
+  const { data: productsData, isLoading, error } = useGetProducts(currentPage);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -31,17 +35,35 @@ const HomePage = () => {
     );
   }
 
+  const handlePaginationChange = (page: number) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', page.toString());
+      return newParams;
+    });
+  };
+
+  const totalPages = productsData ? Math.ceil(productsData.total / 10) : 0;
+
   return (
     <div className="flex flex-col gap-4">
       {productsData?.products?.map((product: Product) => (
-        <ProductCard 
-            title={product.title}
-            price={product.price}
-            stock={product.stock}
-            thumbnail={product.thumbnail}
-            key={product.id}
-          />
+        <ProductCard
+          title={product.title}
+          price={product.price}
+          stock={product.stock}
+          thumbnail={product.thumbnail}
+          key={product.id}
+        />
       ))}
+
+      {totalPages > 1 && (
+        <Paginator
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPaginationChange={handlePaginationChange}
+        />
+      )}
     </div>
   );
 };

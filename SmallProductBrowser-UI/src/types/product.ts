@@ -1,10 +1,17 @@
-export interface Product {
+export type ProductsResponse = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export type Product = {
   id: number;
   title: string;
   description: string;
   category: string;
   price: number;
-  discountPercentage: number;
+  discountPercentage: number; 
   rating: number;
   stock: number;
   tags: string[];
@@ -23,13 +30,13 @@ export interface Product {
   thumbnail: string;
 }
 
-export interface Dimensions { //
+type Dimensions = {
   width: number;
   height: number;
   depth: number;
 }
 
-export interface Review { // 
+type Review ={
   rating: number;
   comment: string;
   date: string;
@@ -37,16 +44,9 @@ export interface Review { //
   reviewerEmail: string;
 }
 
-export interface Meta { //
+type Meta = {
   createdAt: string;
   updatedAt: string;
   barcode: string;
   qrCode: string;
-}
-
-export interface ProductsResponse { //
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
 }

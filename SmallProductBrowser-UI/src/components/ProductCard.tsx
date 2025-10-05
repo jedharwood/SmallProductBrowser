@@ -1,4 +1,4 @@
-type ProductCardProps = {
+interface ProductCardProps {
   title: string;
   price: number;
   stock: number;
@@ -30,9 +30,7 @@ const ProductCard = ({ title, price, stock, thumbnail }: ProductCardProps) => {
                     : 'bg-red-100 text-red-800'
                 }`}
               >
-                {stock > 0
-                  ? `${stock} in stock`
-                  : 'Out of stock'}
+                {stock > 0 ? `${stock} in stock` : 'Out of stock'}
               </span>
             </div>
           </div>
