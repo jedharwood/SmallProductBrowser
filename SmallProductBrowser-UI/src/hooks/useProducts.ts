@@ -14,6 +14,6 @@ export const useGetProduct = (id: number) => {
   return useQuery({
     queryKey: ['product', id],
     queryFn: () => productsApi.getProduct(id),
-    enabled: !!id, // Only run if id is provided
+    enabled: !!id,
   });
 };

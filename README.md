@@ -78,4 +78,4 @@ SmallProductBrowser/
 
 ## Potential gotchas
 
-When testing this setup on another machine the CORS failed because the frontend port switched from `http://localhost:5173` to `http://localhost:5174`. If experiencing CORS issues you may need to check the url of the UI and add it to the CORS origins on line 22 of `SmallProductBrowser-API\SmallProductBrowser\Program.cs`
+When testing this setup on another machine the CORS failed because the frontend port switched from `http://localhost:5173` to `http://localhost:5174`. If experiencing CORS issues you may need to check the url of the UI and add it to the CORS origins on line 20 of `SmallProductBrowser-API\SmallProductBrowser\Program.cs`
