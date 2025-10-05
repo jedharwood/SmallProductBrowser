@@ -11,11 +11,11 @@ namespace SmallProductBrowser.Tests.UnitTests
 {
     public class ProductsServiceTests
     {
-        private Mock<HttpMessageHandler> _mockHandler;
-        private HttpClient _httpClient;
-        private ProductsService _service;
-        private MemoryCache _memoryCache;
-        private Mock<ILogger<ProductsService>> _mockLogger;
+        private Mock<HttpMessageHandler> _mockHandler = null!;
+        private HttpClient _httpClient = null!;
+        private ProductsService _service = null!;
+        private MemoryCache _memoryCache = null!;
+        private Mock<ILogger<ProductsService>> _mockLogger = null!;
 
 
         private void SetupHttpResponse(HttpResponseMessage response)
@@ -95,7 +95,7 @@ namespace SmallProductBrowser.Tests.UnitTests
             // Assert
             Assert.NotNull(result);
             Assert.Equal(expectedProducts.Total, result.Total);
-            Assert.Equal(expectedProducts.Products.Count, result.Products.Count);
+            Assert.Equal(expectedProducts.Products.Count, result.Products!.Count);
             Assert.Equal(expectedProducts.Products[0].Id, result.Products[0].Id);
             Assert.Equal(expectedProducts.Products[0].Title, result.Products[0].Title);
         }
