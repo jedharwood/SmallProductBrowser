@@ -13,6 +13,18 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Services(services)
     .WriteTo.Console()
 );
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "http://localhost:5174")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<IProductsService, ProductsService>((sp, httpClient) =>
     new ProductsService(
@@ -22,6 +34,10 @@ builder.Services.AddHttpClient<IProductsService, ProductsService>((sp, httpClien
     ));
 
 var app = builder.Build();
+
+// Use CORS middleware
+app.UseCors("AllowReactApp");
+
 app.UseHttpsRedirection();
 app.MapProductsEndpoints();
 app.Use(async (context, next) =>
