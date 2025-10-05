@@ -1,3 +1,5 @@
+import ErrorDisplay from '../components/ErrorDisplay';
+import LoadingDisplay from '../components/LoadingDisplay';
 import Paginator from '../components/Paginator';
 import ProductCard from '../components/ProductCard';
 import SearchInput from '../components/SearchInput';
@@ -17,20 +19,12 @@ const HomePage = () => {
   } = useGetProducts(currentPage, search);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-lg font-semibold">Loading products...</div>
-      </div>
-    );
+    return <LoadingDisplay />;
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-red-600 text-lg font-semibold">
-          Error loading products: {error.message}
-        </div>
-      </div>
+      <ErrorDisplay message={`Error loading products: ${error.message}`} />
     );
   }
 
@@ -81,20 +75,11 @@ const HomePage = () => {
             price={product.price}
             stock={product.stock}
             thumbnail={product.thumbnail}
+            id={product.id}
             key={product.id}
           />
         ))
       )}
-
-      {productsData?.products?.map((product: Product) => (
-        <ProductCard
-          title={product.title}
-          price={product.price}
-          stock={product.stock}
-          thumbnail={product.thumbnail}
-          key={product.id}
-        />
-      ))}
 
       {totalPages > 1 && (
         <Paginator
